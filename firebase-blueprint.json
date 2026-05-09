@@ -1,0 +1,88 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string" },
+        "phone": { "type": "string" },
+        "referralCode": { "type": "string" },
+        "referredBy": { "type": "string" },
+        "rank": { "type": "string" },
+        "logoUrl": { "type": "string" },
+        "lastActive": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fullName", "phone"]
+    },
+    "Lead": {
+      "title": "Lead",
+      "description": "Sales lead information",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "age": { "type": "integer" },
+        "city": { "type": "string" },
+        "phone": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "not_interested", "plan_share", "no_receive", "signup_done"] },
+        "failReason": { "type": "string" },
+        "futureFollowupDate": { "type": "string", "format": "date-time" },
+        "planShareDate": { "type": "string", "format": "date-time" },
+        "planShareTime": { "type": "string" },
+        "followupResponse": { "type": "string" },
+        "noReceiveCount": { "type": "integer" },
+        "callbackDate": { "type": "string", "format": "date-time" },
+        "callbackTime": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "phone"]
+    },
+    "Schedule": {
+      "title": "Schedule",
+      "description": "Daily ritual task",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "time": { "type": "string" },
+        "task": { "type": "string" },
+        "reminder": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "time", "task"]
+    },
+    "Target": {
+      "title": "Target",
+      "description": "Monthly sales target",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "month": { "type": "integer" },
+        "year": { "type": "integer" },
+        "leadsTarget": { "type": "integer" },
+        "signupsTarget": { "type": "integer" },
+        "dealsTarget": { "type": "integer" }
+      },
+      "required": ["userId", "month", "year"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Root user profiles"
+    },
+    "/leads/{leadId}": {
+      "schema": "Lead",
+      "description": "Global leads collection (userId indexed for queries)"
+    },
+    "/schedules/{scheduleId}": {
+      "schema": "Schedule",
+      "description": "Global schedules collection"
+    },
+    "/targets/{targetId}": {
+      "schema": "Target",
+      "description": "Global targets collection"
+    }
+  }
+}
